@@ -9,11 +9,8 @@ import os
 
 load_dotenv()
 
-TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-BOT_USERNAME = '@myBidisha_TeleRecipeBot'
-DAD_JOKES_API_KEY = os.getenv('DAD_JOKES_API_KEY')
-IMAGE_SEARCH_API_KEY = os.getenv('IMAGE_SEARCH_API_KEY')
-RECIPE_API_KEY = os.getenv('RECIPE_API_KEY')
+TOKEN = os.getenv('TELE_TOKEN')
+BOT_USERNAME: final = '@myBidisha_TeleRecipeBot'
 
 # COMMANDS
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -26,7 +23,7 @@ async def joke_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # API for joke
     url = "https://dad-jokes.p.rapidapi.com/random/joke"
     headers = {
-        "X-RapidAPI-Key": DAD_JOKES_API_KEY,
+        "X-RapidAPI-Key": os.getenv('JOKE_APIKEY'),
         "X-RapidAPI-Host": "dad-jokes.p.rapidapi.com"
     }
     response = requests.get(url, headers=headers)
@@ -38,7 +35,7 @@ async def fetch_random_image(query: str) -> str:
     url = f"https://google-api31.p.rapidapi.com/imagesearch"
     headers = {
         "content-type": "application/json",
-        "X-RapidAPI-Key": IMAGE_SEARCH_API_KEY,
+        "X-RapidAPI-Key": os.getenv('IMAGE_APIKEY'),
         "X-RapidAPI-Host": "google-api31.p.rapidapi.com"
     }
     payload = {
@@ -82,7 +79,7 @@ async def recipe_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # API for recipe
     url = f'https://api.api-ninjas.com/v1/recipe?query={query}'
-    headers = {'X-Api-Key': RECIPE_API_KEY}
+    headers = {'X-Api-Key': os.getenv('RECIPE_APIKEY')}
     response = requests.get(url, headers=headers)
 
     if response.status_code == requests.codes.ok:
